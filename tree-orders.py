@@ -18,25 +18,46 @@ class TreeOrders:
             self.left[i] = b
             self.right[i] = c
 
+    def inOrderHelper(self, i):
+        if self.left[i] != -1:
+            self.inOrderHelper(self.left[i])
+        self.result.append(self.key[i])
+        if self.right[i] != -1:
+            self.inOrderHelper(self.right[i])
+
     def inOrder(self):
         self.result = []
         # Finish the implementation
         # You may need to add a new recursive method to do that
-
+        self.inOrderHelper(0)
         return self.result
+
+    def preOrderHelper(self, i):
+        self.result.append(self.key[i])
+        if self.left[i] != -1:
+            self.preOrderHelper(self.left[i])
+        if self.right[i] != -1:
+            self.preOrderHelper(self.right[i])
 
     def preOrder(self):
         self.result = []
         # Finish the implementation
         # You may need to add a new recursive method to do that
-
+        self.preOrderHelper(0)
         return self.result
+
+    def postOrderHelper(self, i):
+        if self.left[i] != -1:
+            self.postOrderHelper(self.left[i])
+        if self.right[i] != -1:
+            self.postOrderHelper(self.right[i])
+        self.result.append(self.key[i])
 
     def postOrder(self):
         self.result = []
         # Finish the implementation
         # You may need to add a new recursive method to do that
-
+        self.postOrderHelper(0)
         return self.result
 
 
