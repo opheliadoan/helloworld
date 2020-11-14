@@ -3,8 +3,8 @@
 import sys
 import threading
 
-sys.setrecursionlimit(10**7)  # max depth of recursion
-threading.stack_size(2**25)  # new thread will get stack of such size
+sys.setrecursionlimit(2*10**9)  # max depth of recursion
+threading.stack_size(2**27)  # new thread will get stack of such size
 
 
 def IsBinarySearchTreeHelper(tree, result, i):
@@ -20,6 +20,8 @@ def IsBinarySearchTreeHelper(tree, result, i):
 def IsBinarySearchTree(tree):
     # Implement correct algorithm here
     inorder = []
+    if len(tree) == 0:
+        return True
     IsBinarySearchTreeHelper(tree, inorder, 0)
     return (inorder == sorted(inorder))
 
