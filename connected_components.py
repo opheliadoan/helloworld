@@ -3,9 +3,20 @@
 import sys
 
 
-def number_of_components(adj):
+def explore(x, adj, visited):
+    visited[x] = True
+    for t in adj[x]:
+        if not visited[t]:
+            explore(t, adj, visited)
+
+
+def number_of_components(adj, visited):
     result = 0
     # write your code here
+    for i in range(len(visited)):
+        if not visited[i]:
+            explore(i, adj, visited)
+            result += 1
     return result
 
 
@@ -16,7 +27,8 @@ if __name__ == '__main__':
     data = data[2:]
     edges = list(zip(data[0:(2 * m):2], data[1:(2 * m):2]))
     adj = [[] for _ in range(n)]
+    visited = [False for _ in range(n)]
     for (a, b) in edges:
         adj[a - 1].append(b - 1)
         adj[b - 1].append(a - 1)
-    print(number_of_components(adj))
+    print(number_of_components(adj, visited))
