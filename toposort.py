@@ -5,13 +5,21 @@ import sys
 
 def dfs(adj, used, order, x):
     # write your code here
-    pass
+    used[x] = 1
+    for i in adj[x]:
+        if used[i] == 0:
+            dfs(adj, used, order, i)
+    if x not in order:
+        order.append(x)
 
 
-def toposort(adj):
+def toposort(adj, n):
     used = [0] * len(adj)
     order = []
     # write your code here
+    for i in range(n):
+        dfs(adj, used, order, i)
+    order.reverse()
     return order
 
 
@@ -24,6 +32,6 @@ if __name__ == '__main__':
     adj = [[] for _ in range(n)]
     for (a, b) in edges:
         adj[a - 1].append(b - 1)
-    order = toposort(adj)
+    order = toposort(adj, n)
     for x in order:
         print(x + 1, end=' ')
