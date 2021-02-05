@@ -7,18 +7,18 @@ def dfs(adj, used, order, x):
     # write your code here
     used[x] = 1
     for i in adj[x]:
-        if used[i] == 0:
+        if not used[i]:
             dfs(adj, used, order, i)
-    if x not in order:
-        order.append(x)
+    order.append(x)
 
 
-def toposort(adj, n):
+def toposort(adj):
     used = [0] * len(adj)
     order = []
     # write your code here
-    for i in range(n):
-        dfs(adj, used, order, i)
+    for i in range(len(used)):
+        if not used[i]:
+            dfs(adj, used, order, i)
     order.reverse()
     return order
 
@@ -32,6 +32,6 @@ if __name__ == '__main__':
     adj = [[] for _ in range(n)]
     for (a, b) in edges:
         adj[a - 1].append(b - 1)
-    order = toposort(adj, n)
+    order = toposort(adj)
     for x in order:
         print(x + 1, end=' ')
