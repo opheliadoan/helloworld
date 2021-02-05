@@ -5,25 +5,24 @@ import sys
 
 def dfs(v, adj, visited, onStack):
     visited[v] = 1
-    onStack.append(v)
+    onStack[v] = 1
     for i in adj[v]:
-        if not visited[i]:
-            return dfs(i, adj, visited, onStack)
-        elif (i in onStack):
+        if not visited[i] and dfs(i, adj, visited, onStack):
             return 1
-    onStack.clear()
+        elif onStack[i]:
+            return 1
+    onStack[v] = 0
     return 0
 
 
-def acyclic(adj, n):
-    result = 0
-    visited = [0 for _ in range(n)]
-    onStack = []
-    for i in range(n):
-        if not visited[i] and result == 0:
-            if dfs(i, adj, visited, onStack):
-                result = 1
-    return result
+def acyclic(adj):
+    visited = [0 for _ in range(len(adj))]
+    onStack = [0 for _ in range(len(adj))]
+    for i in range(len(adj)):
+        if not visited[i]:
+            if dfs(i, adj, visited, onStack,):
+                return 1
+    return 0
 
 
 if __name__ == '__main__':
@@ -35,4 +34,4 @@ if __name__ == '__main__':
     adj = [[] for _ in range(n)]
     for (a, b) in edges:
         adj[a - 1].append(b - 1)
-    print(acyclic(adj, n))
+    print(acyclic(adj))
