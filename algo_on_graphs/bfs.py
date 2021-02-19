@@ -10,7 +10,7 @@ def distance(adj, s, t):
     dist[s] = 0
     Q = [s]
     while (len(Q) > 0):
-        u = Q.pop()
+        u = Q.pop(0)
         for v in adj[u]:
             if dist[v] == -1:
                 Q.append(v)
