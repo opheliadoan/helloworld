@@ -6,7 +6,16 @@ import queue
 
 def distance(adj, s, t):
     # write your code here
-    return -1
+    dist = [-1 for _ in range(len(adj))]
+    dist[s] = 0
+    Q = [s]
+    while (len(Q) > 0):
+        u = Q.pop()
+        for v in adj[u]:
+            if dist[v] == -1:
+                Q.append(v)
+                dist[v] = dist[u] + 1
+    return dist[t]
 
 
 if __name__ == '__main__':
