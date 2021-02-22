@@ -4,26 +4,25 @@ import sys
 import queue
 
 
-def color(adj):
-    coloredGraph = [-1 for _ in range(len(adj))]
-    coloredGraph[0] = 0
-    Q = [0]
-    while (len(Q) > 0):
-        u = Q.pop(0)
-        for v in adj[u]:
-            if coloredGraph[v] == -1:
-                coloredGraph[v] = 1 if coloredGraph[u] == 0 else 0
-                Q.append(v)
-    return coloredGraph
+def setColor(adj, coloredGraph, s, c):
+    coloredGraph[s] = c
+    for i in adj[s]:
+        if coloredGraph[i] == -1:
+            setColor(adj, coloredGraph, i, 1 - c)
+        else:
+            if coloredGraph[i] == c:
+                return 0
+    return 1
 
 
-def bipartite(adj, edges):
+def bipartite(adj):
     # write your code here
     # 0 for white, 1 for black
-    coloredGraph = color(adj)
-    for (a, b) in edges:
-        if coloredGraph[a - 1] == coloredGraph[b - 1] and coloredGraph[a - 1] != -1 and coloredGraph[b - 1] != -1:
-            return 0
+    coloredGraph = [-1 for _ in range(len(adj))]
+    for i in range(len(adj)):
+        if coloredGraph[i] == -1:
+            if not setColor(adj, coloredGraph, i, 0):
+                return 0
     return 1
 
 
@@ -37,4 +36,4 @@ if __name__ == '__main__':
     for (a, b) in edges:
         adj[a - 1].append(b - 1)
         adj[b - 1].append(a - 1)
-    print(bipartite(adj, edges))
+    print(bipartite(adj))
