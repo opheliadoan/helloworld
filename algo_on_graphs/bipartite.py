@@ -22,7 +22,7 @@ def bipartite(adj, edges):
     # 0 for white, 1 for black
     coloredGraph = color(adj)
     for (a, b) in edges:
-        if coloredGraph[a - 1] == coloredGraph[b - 1]:
+        if coloredGraph[a - 1] == coloredGraph[b - 1] and coloredGraph[a - 1] != -1 and coloredGraph[b - 1] != -1:
             return 0
     return 1
 
