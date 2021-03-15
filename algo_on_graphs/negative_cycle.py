@@ -3,9 +3,28 @@
 import sys
 
 
+def BellmanFord(dist, adj, cost):
+    for i in range(len(adj)):
+        for s in range(len(adj)):
+            for v in adj[s]:
+                j = adj[s].index(v)
+                if dist[v] > dist[s] + cost[s][j]:
+                    dist[v] = dist[s] + cost[s][j]
+    return dist
+
+
 def negative_cycle(adj, cost):
     # write your code here
-    return 0
+    dist = [float('inf') for _ in range(len(adj))]
+    dist[0] = 0
+    for i in range(len(adj) - 1):
+        dist = BellmanFord(dist, adj, cost)
+    tmp = dist.copy()
+    dist = BellmanFord(dist, adj, cost)
+    if (dist == tmp):
+        return 0
+    else:
+        return 1
 
 
 if __name__ == '__main__':
