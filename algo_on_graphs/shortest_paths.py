@@ -4,9 +4,46 @@ import sys
 import queue
 
 
+def check_reachable(adj, s, li):
+    for t in adj[s]:
+        if li[t] == 0:
+            li[t] = 1
+            check_reachable(adj, t, li)
+    return li
+
+
+def relax(u, v, i, dist, prev):
+    if dist[v] > dist[u] + cost[u][i]:
+        dist[v] = dist[u] + cost[u][i]
+        prev[v] = u
+        return 1
+    return 0
+
+
 def shortet_paths(adj, cost, s, distance, reachable, shortest):
-    # write your code here
-    pass
+
+    reach_ = [0 for _ in range(len(adj))]
+    reach_[s] = 1
+    reach_ = check_reachable(adj, s, reach_)
+
+    for i in range(len(reachable)):
+        reachable[i] = reach_[i]
+
+    dist = distance
+    prev = [-1 for i in adj]
+
+    dist[s] = 0
+
+    for i in range(len(adj)):
+        for n, item in enumerate(adj):
+            for index, t in enumerate(item):
+                r = relax(n, t, index, dist, prev)
+                if r == 1 and i == len(adj) - 1:
+                    reach_ = [0 for _ in range(len(adj))]
+                    reach_ = check_reachable(adj, n, reach_)
+                    shortest_ = [1-reach_[i] for i in range(len(adj))]
+                    for i in range(len(shortest)):
+                        shortest[i] = shortest_[i]
 
 
 if __name__ == '__main__':

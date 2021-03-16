@@ -4,21 +4,21 @@ import sys
 import queue
 
 
-def extractMin(H):
-    min_pair = H.get()
-    return min_pair[1], H
+def extractMin(H, dist):
+    tmp = [dist[i] for i in H]
+    u_index = tmp.index(min(tmp))
+    u = H[u_index]
+    H.remove(u)
+    return u, H
 
 
 def distance(adj, cost, s, t):
     # write your code here
-    result = -1
     dist = [float('inf')]*len(adj)
     dist[s] = 0
-    H = queue.PriorityQueue(len(adj))
-    for i in range(len(adj)):
-        H.put((dist[i], i))
-    while not H.empty():
-        u, H = extractMin(H)
+    H = [i for i in range(len(adj))]
+    while (len(H) != 0):
+        u, H = extractMin(H, dist)
         for v in adj[u]:
             j = adj[u].index(v)
             if dist[v] > dist[u] + cost[u][j]:
